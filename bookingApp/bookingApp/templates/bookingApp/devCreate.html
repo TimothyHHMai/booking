@@ -151,7 +151,13 @@
                 }
             });
         }
+        function highlightStep(event) {
+            let steps = document.querySelectorAll('.step');
+              
+            steps.forEach(step => step.classList.remove('highlighted'));
 
+            event.target.classList.add('highlighted');
+        }
         function addStep() {
             let contentDiv = document.querySelector('.content');
             
@@ -168,12 +174,33 @@
             newStep.contentEditable = true;
             newStep.innerText = 'New Step';
             
+            newStep.addEventListener('click', highlightStep);
+
             contentDiv.appendChild(newStep);
+        }
+        function addChoice() {
+            let serviceDiv = document.querySelector('.services-container');
+            
+            
+            let newOption = document.createElement('div');
+            newOption.className = 'service-option';
+            newOption.contentEditable = true;
+            newOption.innerText = 'New option';
+
+            serviceDiv.appendChild(newOption);
         }
     </script>
     <script> // testing
         function selection () {
             document.getElementById('confirmButton').style.display = 'block';
+        }
+
+        function highlightStep(event) {
+            let steps = document.querySelectorAll('.step');
+            
+            steps.forEach(step => step.classList.remove('highlighted'));
+
+            event.target.classList.add('highlighted');
         }
 
         function highlightNextStep() {
@@ -186,6 +213,7 @@
                     break;
                 }
             }
+
         }
 
         function confirmSelection() {
@@ -198,6 +226,7 @@
 <body>
     <header class="header">
         <div class="edit-option" onclick="addStep()">Add Step</div>
+        <div class="edit-option" onclick="addChoice()">Add Choice</div>
     </header>
 
     <div class="main-content">
@@ -205,15 +234,7 @@
 
         <div class="divider"></div>
 
-        <div class="services-container">
-            <input type="text" class="service-option" placeholder="Mani/Pedi">
-            <input type="text" class="service-option" placeholder="Fullsets & Fill IN">
-            <input type="text" class="service-option" placeholder="DIP NAILS">
-            <input type="text" class="service-option" placeholder="WAXING">
-            <input type="text" class="service-option" placeholder="KID SERVICES">
-            <input type="text" class="service-option" placeholder="DESIGNS">
-            <input type="text" class="service-option" placeholder="ADDITIONAL SERVICE">
-        </div>
+        <div class="services-container"></div>
         
 
         <button id="confirmButton" class="confirm-button" onclick="confirmSelection()">Confirm Selection</button>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/3ef1b1eefa.js" crossorigin="anonymous"></script>
+    <title>User</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: pink;
+            padding: 1vw 3vw;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3vw;
+        }
+
+        .header a {
+            color: black;
+            font-size: 2vw;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .divider {
+            width: 80%;
+            height: 2px;
+            background-color: gray;
+            margin: 2vw auto;
+        }
+
+        .main-content {
+            display: flex;
+            height: 100%;
+            justify-content: top;
+            align-items: center;
+            margin-top: 15vh;
+            flex-direction: column;
+        }
+
+        .services-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5vw;
+            justify-content: center;
+            margin-bottom: 2vw;
+            margin-top: 0.5vw;
+        }
+
+        .service-option {
+            font-size: 1.5vw;
+            font-weight: bold;
+            padding: 1vw 2vw;
+            border-radius: 20px;
+            background-color: lightgray;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .service-option:hover {
+            background-color: purple;
+            color: white;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2vw;
+        }
+
+        .step {
+            font-size: 2vw;
+            font-weight: bold;
+            padding: 1.5vw 3vw;
+            border-radius: 50px;
+            background-color: lightgray;
+            transition: background-color 0.3s;
+        }
+
+        .highlighted {
+            background-color: blue;
+            color: white;
+        }
+
+        .arrow {
+            font-size: 3vw;
+        }
+
+        .confirm-button {
+            display: none;
+            font-size: 1.5vw;
+            font-weight: bold;
+            padding: 1vw 2vw;
+            margin-top: 2vw;
+            border-radius: 20px;
+            background-color: green;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .confirm-button:hover {
+            background-color: darkgreen;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 2vw;
+            }
+            .header a {
+                font-size: 3vw;
+            }
+            .service-option, .confirm-button {
+                font-size: 3vw;
+            }
+        }
+    </style>
+    <script>
+        function selection () {
+            document.getElementById('confirmButton').style.display = 'block';
+        }
+
+        function highlightNextStep() {
+            let steps = document.querySelectorAll('.step');
+            let servicesStep = steps[0];
+            servicesStep.classList.remove('highlighted');
+            for (let i = 1; i < steps.length; i++) {
+                if (!steps[i].classList.contains('highlighted')) {
+                    steps[i].classList.add('highlighted');
+                    break;
+                }
+            }
+        }
+
+        function confirmSelection() {
+            highlightNextStep();
+            document.querySelector('.services-container').style.display = 'none';
+            document.getElementById('confirmButton').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <a>Booking</a>
+    </header>
+
+    <div class="main-content">
+        <div class="content">
+            <div class="step highlighted">Services</div>
+            <div class="arrow">&#10132;</div>
+            <div class="step">Technician</div>
+            <div class="arrow">&#10132;</div>
+            <div class="step">Client</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="services-container">
+            <div class="service-option" onclick="selection()">Mani/Pedi</div>
+            <div class="service-option" onclick="selection()">Fullsets & Fill IN</div>
+            <div class="service-option" onclick="selection()">DIP NAILS</div>
+            <div class="service-option" onclick="selection()">WAXING</div>
+            <div class="service-option" onclick="selection()">KID SERVICES</div>
+            <div class="service-option" onclick="selection()">DESIGNS</div>
+            <div class="service-option" onclick="selection()">ADDITIONAL SERVICE</div>
+        </div>
+
+        <button id="confirmButton" class="confirm-button" onclick="confirmSelection()">Confirm Selection</button>
+    </div>
+</body>
+</html>

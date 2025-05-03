@@ -164,13 +164,16 @@
 
             event.target.classList.add('highlighted');
 
-            currStep = step.innerText;
+            currStep = step.id;
+            console.log('currStep: ' + currStep);
             updateChoicesDisplay();
         }
         function addStep() {
             let contentDiv = document.querySelector('.content');
             
-            if (contentDiv.children.length > 0) {
+            let numStep = contentDiv.children.length
+
+            if (numStep > 0) {
                 let arrow = document.createElement('div');
                 arrow.className = 'arrow';
                 arrow.innerHTML = '&#10132;';
@@ -179,6 +182,7 @@
             }
             
             let newStep = document.createElement('div');
+            newStep.id = numStep;
             newStep.className = 'step';
             newStep.contentEditable = true;
             newStep.innerText = 'New Step';
@@ -187,6 +191,9 @@
 
             contentDiv.appendChild(newStep);
             highlightStep({target: newStep});
+            
+            // delete_this
+            console.log("")
         }
         function addChoice() {
             let serviceDiv = document.querySelector('.services-container');
@@ -203,33 +210,35 @@
 
             currChoices[currStep].push(newOption.innerText);
         }
-        function updateDisplay(option) {
+        function updateChoicesDisplay() {
             let serviceDiv = document.querySelector('.services-container');
             serviceDiv.innerHTML = '';
-            
-            // save choices
-            saveChoices();
 
-            switch (option){
-                case 1:
-                    // step 1 choices
-                case 2:
-                    // calendar
-                case 3: 
-                    // person
+            if (currChoices[currStep]) {
+                currChoices[currStep].forEach((choiceText, index) => {
+                    let choice = document.createElement('div');
+                    choice.className = 'service-option';
+                    choice.contentEditable = true;
+                    choice.innerText = choiceText;
+
+                    choice.addEventListener("input", () => {
+                        currChoices[currStep][index] = choice.innerText;
+                    });
+
+                    serviceDiv.appendChild(choice);
+                });
             }
-
-            // update display accordingly
-                
         }
         function saveChoices() {
             let serviceDiv = document.querySelector('.services-container');
             let allChoices = Array.from(serviceDiv.children).map(child => child.innerText.trim());
-            step1Arr = allChoices;
+            currChoices[currStep] = allChoices;
         }
 
         window.onload = function() {
-            addStep();  
+            addStep(); 
+            addStep();
+            addStep(); 
             addChoice(); 
         }
     </script>
@@ -268,9 +277,7 @@
 </head>
 <body>
     <header class="header">
-        <div class="edit-option" onclick="addStep()">Add Step</div>
         <div class="edit-option" onclick="addChoice()">Add Choice</div>
-        <button onclick="console.log(currChoices)">Log Choices</button>
 
     </header>
 

@@ -156,6 +156,8 @@
         
         let currChoices = {};
         let currStep = null;
+        let numStep = 0;
+        console.log("initialization");
 
         function highlightStep(event) {
             let steps = document.querySelectorAll('.step');
@@ -164,15 +166,15 @@
 
             event.target.classList.add('highlighted');
 
-            currStep = step.id;
+            
+            currStep = event.target.id;
             console.log('currStep: ' + currStep);
+            
             updateChoicesDisplay();
         }
         function addStep() {
             let contentDiv = document.querySelector('.content');
             
-            let numStep = contentDiv.children.length
-
             if (numStep > 0) {
                 let arrow = document.createElement('div');
                 arrow.className = 'arrow';
@@ -191,13 +193,20 @@
 
             contentDiv.appendChild(newStep);
             highlightStep({target: newStep});
+
+            currStep = numStep;
             
             // delete_this
-            console.log("")
+            console.log("numStep:" + numStep);
+            numStep++;
         }
         function addChoice() {
+
             let serviceDiv = document.querySelector('.services-container');
             
+            if (!currChoices[currStep]) {
+                currChoices[currStep] = [];
+            }
             
             let newOption = document.createElement('div');
             newOption.className = 'service-option';
@@ -239,13 +248,15 @@
             addStep(); 
             addStep();
             addStep(); 
-            addChoice(); 
+            //addChoice(); 
         }
     </script>
     <script> // testing
+    /*
         function selection () {
             document.getElementById('confirmButton').style.display = 'block';
         }
+
 
         function highlightStep(event) {
             let steps = document.querySelectorAll('.step');
@@ -254,6 +265,7 @@
 
             event.target.classList.add('highlighted');
         }
+        
 
         function highlightNextStep() {
             let steps = document.querySelectorAll('.step');
@@ -273,6 +285,7 @@
             document.querySelector('.services-container').style.display = 'none';
             document.getElementById('confirmButton').style.display = 'none';
         }
+            */
     </script>
 </head>
 <body>

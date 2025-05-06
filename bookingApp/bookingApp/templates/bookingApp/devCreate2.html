@@ -51,7 +51,7 @@
             flex-direction: column;
         }
 
-        .services-container {
+        .choices-container {
             display: flex;
             flex-wrap: wrap;
             gap: 1.5vw;
@@ -71,11 +71,11 @@
         }
 
         .edit-option:hover {
-            background-color: purple;
+            background-color: rgb(20, 187, 253);
             color: white;
         }
 
-        .service-option {
+        .choice {
             font-size: 1.5vw;
             font-weight: bold;
             padding: 1vw 2vw;
@@ -85,8 +85,8 @@
             transition: background-color 0.3s;
         }
 
-        .service-option:hover {
-            background-color: purple;
+        .choice:hover {
+            background-color: rgb(20, 187, 253);
             color: white;
         }
 
@@ -226,7 +226,7 @@
             let input = document.createElement("input");
             input.type = "text";
             input.value = currentText;
-            input.className = "service-input";  // styling
+            input.className = "choice-input";  // styling
 
             element.replaceWith(input);
             input.focus();
@@ -243,6 +243,7 @@
         let currChoices = {};
         let currStep = null;
         let numStep = 0;
+        let calendarStep = null;
         console.log("initialization");
 
         function highlightStep(event) {
@@ -272,10 +273,15 @@
             let newStep = document.createElement('div');
             newStep.id = numStep;
             newStep.className = 'step';
-            newStep.contentEditable = true;
+            newStep.contentEditable = false;
             newStep.innerText = 'New Step';
             
             newStep.addEventListener('click', highlightStep);
+
+            newStep.addEventListener('dblclick', () => {
+                newStep.contentEditable = true;
+                newStep.focus();
+            });
 
             contentDiv.appendChild(newStep);
             highlightStep({target: newStep});
@@ -283,56 +289,87 @@
             currStep = numStep;
             
             // delete_this
-            console.log("numStep:" + numStep);
+            console.log("added numStep:" + numStep);
             numStep++;
+        }
+        function highlightChoice(event) {
+            let choices = document.querySelectorAll('.choice');
+              
+            choices.forEach(choice => choice.classList.remove('highlighted'));
+
+            event.target.classList.add('highlighted');
         }
         function addChoice() {
 
-            let serviceDiv = document.querySelector('.services-container');
+            let serviceDiv = document.querySelector('.choices-container');
             
             if (!currChoices[currStep]) {
                 currChoices[currStep] = [];
             }
             
             let newOption = document.createElement('div');
-            newOption.className = 'service-option';
-            newOption.contentEditable = true;
+            newOption.className = 'choice';
+            newOption.contentEditable = false;
             newOption.innerText = 'New option';
 
+            newOption.addEventListener('click', highlightChoice);
             newOption.addEventListener("input", () => saveChoices());
 
+            newOption.addEventListener('dblclick', () => {
+                newOption.contentEditable = true;
+                newOption.focus();
+            });
+
             serviceDiv.appendChild(newOption);
+            
 
             currChoices[currStep].push(newOption.innerText);
+            highlightChoice({target: newOption});
         }
         function updateChoicesDisplay() {
-            let serviceDiv = document.querySelector('.services-container');
+            console.log("updateChoicesDisplay");
+            console.log("calendarStep:" + calendarStep);
+
+            let serviceDiv = document.querySelector('.choices-container');
             serviceDiv.innerHTML = '';
 
             if (currChoices[currStep]) {
                 currChoices[currStep].forEach((choiceText, index) => {
                     let choice = document.createElement('div');
-                    choice.className = 'service-option';
-                    choice.contentEditable = true;
+                    choice.className = 'choice';
+                    choice.contentEditable = false;
                     choice.innerText = choiceText;
 
                     choice.addEventListener("input", () => {
                         currChoices[currStep][index] = choice.innerText;
                     });
+                    choice.addEventListener('click', highlightChoice);
+                    choice.addEventListener('dblclick', () => {
+                        choice.contentEditable = true;
+                        choice.focus();
+                    });
 
                     serviceDiv.appendChild(choice);
                 });
             }
+            if (calendarStep !== null) {
+                console.log("calendarStep:" + calendarStep);
+                console.log("currStep:" + currStep);
+                const calendar = document.querySelector('.calendar');
+                calendar.style.display = (calendarStep == currStep) ? 'flex' : 'none';
+            }
         }
         function saveChoices() {
-            let serviceDiv = document.querySelector('.services-container');
+            let serviceDiv = document.querySelector('.choices-container');
             let allChoices = Array.from(serviceDiv.children).map(child => child.innerText.trim());
             currChoices[currStep] = allChoices;
         }
 
         function addCalendar() {
-        const calendar = document.querySelector('.calendar');
-        calendar.style.display = (calendar.style.display === 'none' || calendar.style.display === '') ? 'flex' : 'none';
+            const calendar = document.querySelector('.calendar');
+            calendar.style.display = (calendar.style.display === 'none' || calendar.style.display === '') ? 'flex' : 'none';
+            calendarStep = (calendarStep === currStep) ? -1 : currStep;
+            console.log("calendarStep:" + calendarStep);
         }
 
         window.onload = function() {
@@ -359,8 +396,8 @@
 
         function highlightNextStep() {
             let steps = document.querySelectorAll('.step');
-            let servicesStep = steps[0];
-            servicesStep.classList.remove('highlighted');
+            let choicesStep = steps[0];
+            choicesStep.classList.remove('highlighted');
             for (let i = 1; i < steps.length; i++) {
                 if (!steps[i].classList.contains('highlighted')) {
                     steps[i].classList.add('highlighted');
@@ -372,7 +409,7 @@
 
         function confirmSelection() {
             highlightNextStep();
-            document.querySelector('.services-container').style.display = 'none';
+            document.querySelector('.choices-container').style.display = 'none';
             document.getElementById('confirmButton').style.display = 'none';
         }
             */
@@ -391,7 +428,7 @@
 
         <div class="divider"></div>
 
-        <div class="services-container"></div>
+        <div class="choices-container"></div>
         
         <div class="calendar">
             <div class="headerCal">

@@ -251,25 +251,6 @@
 
 
     </style>
-    <script> // editor
-        function edit(element) {
-            let currentText = element.innerText;
-            let input = document.createElement("input");
-            input.type = "text";
-            input.value = currentText;
-            input.className = "choice-input";  // styling
-
-            element.replaceWith(input);
-            input.focus();
-
-            input.addEventListener("blur", () => saveText(input));
-            input.addEventListener("keydown", (event) => {
-                if (event.key === "Enter") {
-                    saveText(input);
-                }
-            });
-        }
-    </script>
     <script>
         let currChoices = {};
         let currStep = null;

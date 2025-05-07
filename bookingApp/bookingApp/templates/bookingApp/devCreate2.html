@@ -75,20 +75,6 @@
             color: white;
         }
 
-        .choice {
-            font-size: 1.5vw;
-            font-weight: bold;
-            padding: 1vw 2vw;
-            border-radius: 20px;
-            background-color: lightgray;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .choice:hover {
-            background-color: rgb(20, 187, 253);
-            color: white;
-        }
 
         .content {
             display: flex;
@@ -202,7 +188,6 @@
             transition: 0.2s;
         }
 
-        
         .date.inactive {
             color: #bbb;
         }
@@ -216,6 +201,52 @@
             background-color: rgb(20, 187, 253);
             color: white;
             font-weight: bold;
+        }
+
+        .choice {
+            font-size: 1.5vw;
+            font-weight: bold;
+            padding: 1vw 2vw;
+            border-radius: 20px;
+            background-color: lightgray;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .choice:hover {
+            background-color: rgb(20, 187, 253);
+            color: white;
+        }
+        .choice-wrapper {
+            position: relative;
+            display: inline-block;
+            border-radius: 20px;
+        }
+        .choice-wrapper.highlighted .choice {
+            background-color: rgb(20, 187, 253);
+            color: white;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -10px;   
+            right: -10px; 
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+            background: white;
+            border: 1px solid red;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 18px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .choice-wrapper:hover .delete-btn {
+            display: block;
         }
 
 
@@ -295,18 +326,26 @@
         function highlightChoice(event) {
             let choices = document.querySelectorAll('.choice');
               
-            choices.forEach(choice => choice.classList.remove('highlighted'));
+            let wrappers = document.querySelectorAll('.choice-wrapper');
+            wrappers.forEach(wrapper => wrapper.classList.remove('highlighted'));
 
-            event.target.classList.add('highlighted');
+            let targetWrapper = event.target.closest('.choice-wrapper');
+            if (targetWrapper) {
+                targetWrapper.classList.add('highlighted');
+            }
         }
         function addChoice() {
-
             let serviceDiv = document.querySelector('.choices-container');
-            
+
             if (!currChoices[currStep]) {
                 currChoices[currStep] = [];
             }
-            
+
+            // Wrapper
+            let choiceWrapper = document.createElement('div');
+            choiceWrapper.className = 'choice-wrapper';
+
+            // Choice element
             let newOption = document.createElement('div');
             newOption.className = 'choice';
             newOption.contentEditable = false;
@@ -314,18 +353,32 @@
 
             newOption.addEventListener('click', highlightChoice);
             newOption.addEventListener("input", () => saveChoices());
-
             newOption.addEventListener('dblclick', () => {
                 newOption.contentEditable = true;
                 newOption.focus();
             });
 
-            serviceDiv.appendChild(newOption);
-            
+            // Delete button
+            let deleteBtn = document.createElement('span');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '&times;';
+            deleteBtn.addEventListener('click', () => {
+                const index = currChoices[currStep].indexOf(newOption.innerText);
+                if (index > -1) {
+                    currChoices[currStep].splice(index, 1);
+                }
+                updateChoicesDisplay(); 
+            });
+
+            // Append everything
+            choiceWrapper.appendChild(newOption);
+            choiceWrapper.appendChild(deleteBtn);
+            serviceDiv.appendChild(choiceWrapper);
 
             currChoices[currStep].push(newOption.innerText);
             highlightChoice({target: newOption});
         }
+
         function updateChoicesDisplay() {
             console.log("updateChoicesDisplay");
             console.log("calendarStep:" + calendarStep);
@@ -335,6 +388,9 @@
 
             if (currChoices[currStep]) {
                 currChoices[currStep].forEach((choiceText, index) => {
+                    let choiceWrapper = document.createElement('div');
+                    choiceWrapper.className = 'choice-wrapper';
+
                     let choice = document.createElement('div');
                     choice.className = 'choice';
                     choice.contentEditable = false;
@@ -349,16 +405,27 @@
                         choice.focus();
                     });
 
-                    serviceDiv.appendChild(choice);
+                    // Delete button
+                    let deleteBtn = document.createElement('span');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '&times;';
+                    deleteBtn.addEventListener('click', () => {
+                        currChoices[currStep].splice(index, 1);
+                        updateChoicesDisplay();
+                    });
+
+                    choiceWrapper.appendChild(choice);
+                    choiceWrapper.appendChild(deleteBtn);
+                    serviceDiv.appendChild(choiceWrapper);
                 });
             }
-            if (calendarStep !== null) {
-                console.log("calendarStep:" + calendarStep);
-                console.log("currStep:" + currStep);
-                const calendar = document.querySelector('.calendar');
-                calendar.style.display = (calendarStep == currStep) ? 'flex' : 'none';
-            }
+
+        if (calendarStep !== null) {
+            const calendar = document.querySelector('.calendar');
+            calendar.style.display = (calendarStep == currStep) ? 'flex' : 'none';
         }
+    }
+
         function saveChoices() {
             let serviceDiv = document.querySelector('.choices-container');
             let allChoices = Array.from(serviceDiv.children).map(child => child.innerText.trim());
@@ -421,6 +488,7 @@
         <div class="edit-option" onclick="addChoice()">Add Choice</div>
         <div class="edit-option" onclick="addStep()">Add Step</div>
         <div class="edit-option" onclick="addCalendar()">Add Calendar</div>
+        <div class="edit-option" onclick="addInfo()">Add Information</div>
     </header>
 
     <div class="main-content">

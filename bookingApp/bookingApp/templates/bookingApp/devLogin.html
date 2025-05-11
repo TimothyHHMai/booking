@@ -1,53 +1,66 @@
 <!DOCTYPE html>
-<html>
-<style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffe6f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-body {
-  margin: 0;
-  font-family: sans-serif;
-  text-align: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+    .login-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+      width: 300px;
+    }
 
-.header {
-  background-color: pink;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: -100;
-  height: 53%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3vw;
-}
+    h2 {
+      text-align: center;
+      color: #ff69b4;
+    }
 
-</style>
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 16px 0;
+      border: 1px solid #ffb6c1;
+      border-radius: 5px;
+    }
 
-<script> // login
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-
-
-</script>
-
+    button:hover {
+      background-color: #ff1493;
+    }
+  </style>
+</head>
 <body>
-<header>
-  <div class="header"></div>
-</header>
-
-<h1>Booking - Developer</h1>
-
-<form action="/action_page.php" method="get">
-  <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br><br>
-  <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname"><br><br>
-  <button type="submit" value="Submit">Submit</button>
-  <button type="reset" value="Reset">Reset</button>
-</form>
-
+  <div class="login-container">
+    <h2>Login - Developer</h2>
+    <form>
+      <input type="text" placeholder="Username" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </body>
 </html>

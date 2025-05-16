@@ -250,6 +250,33 @@
         }
 
     </style>
+    <style>
+    /* Modal container */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Modal content box */
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      width: 300px;
+      border-radius: 8px;
+    }
+
+    /* Close button */
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    </style>
     <script> // Initialization
         let currChoices = {};
         let currStep = null;
@@ -360,8 +387,9 @@
             }
         }
         function addChoice() {
-            if (calendarStep === currStep) {
-                window.alert("Unable to add choices with calendar");
+            if (calendarStep == currStep) {
+                openModal();
+              //  window.alert("Unable to add choices with calendar");
 
             } else { 
 
@@ -607,6 +635,39 @@
         })
     
         updateCalendar();
+    </script>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Enter your text</h3>
+        <input type="text" id="userInput" placeholder="Type here..." />
+        <br><br>
+        <button onclick="submitInput()">Submit</button>
+      </div>
+    </div>
+    
+    <script>
+      function openModal() {
+        document.getElementById("myModal").style.display = "block";
+      }
+    
+      function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+      }
+    
+      function submitInput() {
+        const input = document.getElementById("userInput").value;
+        alert("You typed: " + input);
+        closeModal();
+      }
+    
+      window.onclick = function(event) {
+        const modal = document.getElementById("myModal");
+        if (event.target == modal) {
+          closeModal();
+        }
+      }
     </script>
 </body>
 

@@ -2,14 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 
 def home(request):
     return render(
-        request, 'bookingApp/userPage.html'
-    )
+        request, 'bookingApp/devCreate.html'
+)
 
-# Fix links 
+'''
+### Fix links 
 def login(request):
     if (request.method == 'GET'):
         return render(request, "devLogin.html", {})
@@ -39,3 +40,5 @@ def login(request):
    
 def dev(request, name):
     return render()
+
+'''

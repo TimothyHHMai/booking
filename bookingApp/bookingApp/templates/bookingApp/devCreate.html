@@ -8,7 +8,6 @@
     <script src="https://kit.fontawesome.com/3ef1b1eefa.js" crossorigin="anonymous"></script>
     <title>devCreate</title>
     <link rel="stylesheet" href="{% static 'bookingApp/devCreate.css' %}">
-
 </head>
 
 <body>
@@ -63,10 +62,12 @@
 
     <div id="alertChoice" class="modal">
         <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2>Warning</h2>
+            </div>
           <h2>Unable to add choices with calendar present</h3>
           <br><br>
-          <button onclick="closeModal('alertChoice')">Confirm</button>
+          <button class="modal-button" onclick="closeModal('alertChoice')">Confirm</button>
         </div>
       </div>
     

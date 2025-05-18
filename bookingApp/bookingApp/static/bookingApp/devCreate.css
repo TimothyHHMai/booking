@@ -258,6 +258,22 @@ body {
     border-radius: 8px;
 }
 
+.modal-button {
+    padding: 10px 20px;
+    height: 45px;
+    background-color: pink;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    border-radius: 5px;
+    
+} 
+
+.modal-button:hover {
+    background-color: rgb(20, 187, 253);
+    color: white;
+}
+
 .close {
     float: right;
     font-size: 20px;

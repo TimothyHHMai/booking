@@ -51,11 +51,10 @@
     </div>
 
     <div id="modalInfo" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Enter your text</h3>
-        <input type="text" id="userInput" placeholder="Type here..." />
-        <br><br>
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modalInfo')"></span>
+            <h3>Enter your text</h3>
+            <input type="text" id="userInput" placeholder="Type here..." />
         <button onclick="submitInput()">Submit</button>
       </div>
     </div>
@@ -65,7 +64,7 @@
             <div class="modal-header">
                 <h2>Warning</h2>
             </div>
-          <h2>Unable to add choices with calendar present</h3>
+          <h3>Unable to add choices with calendar present</h3>
           <br><br>
           <button class="modal-button" onclick="closeModal('alertChoice')">Confirm</button>
         </div>

@@ -213,12 +213,16 @@ function updateChoicesDisplay() {
     }
 }
 
-// Onload + addCalendar
 function addCalendar() {
     const calendar = document.querySelector('.calendar');
     calendar.style.display = (calendar.style.display === 'none' || calendar.style.display === '') ? 'flex' : 'none';
     calendarStep = (calendarStep === currStep) ? -1 : currStep;
     console.log("calendarStep:" + calendarStep);
+}
+
+function addInfo() {
+    console.log("addInfo");
+    openModal("modalInfo");
 }
 
 
@@ -302,6 +306,7 @@ const updateCalendar = () => {
     datesElement.innerHTML = datesHTML;
 }
 updateCalendar();
+
 
 prevBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);

@@ -220,10 +220,7 @@ function addCalendar() {
     console.log("calendarStep:" + calendarStep);
 }
 
-function addInfo() {
-    console.log("addInfo");
-    openModal("modalInfo");
-}
+
 
 
 // testing
@@ -339,3 +336,21 @@ window.onclick = function(event) {
   }
 }
 
+function addInfo() {
+    console.log("addInfo");
+    openModal("modalInfo");
+}
+
+function addChoiceModal() {
+    console.log("addChoiceModal");
+    let contentDiv = document.getElementById('modalInfo-content');
+
+    let newChoice = document.createElement('input');
+    newChoice.type = 'text';
+    newChoice.contentEditable = true;
+    newChoice.placeholder = 'Type here...'
+
+    contentDiv.appendChild(newChoice);
+}
+
+// <input type="text" id="userInput" placeholder="Type here..." />

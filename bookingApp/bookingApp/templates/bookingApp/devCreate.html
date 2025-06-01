@@ -51,9 +51,10 @@
     </div>
 
     <div id="modalInfo" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" id="modalInfo-content">
             <span class="close" onclick="closeModal('modalInfo')"></span>
-            <h3>Enter your text</h3>
+            <div class="edit-option" onclick="addChoiceModal()">Add Choice</div> 
+            <div class="infoModal">Enter your text</div>
             <input type="text" id="userInput" placeholder="Type here..." />
         <button onclick="submitInput()">Submit</button>
       </div>

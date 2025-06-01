@@ -280,3 +280,10 @@ body {
     cursor: pointer;
 }
 
+.infoModal {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+}

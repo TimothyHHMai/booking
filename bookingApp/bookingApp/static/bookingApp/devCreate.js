@@ -1,5 +1,5 @@
 // Initialization
-let currChoices = {};
+let currChoices = [];
 let currStep = null;
 let numStep = 0;
 let calendarStep = null;
@@ -8,19 +8,20 @@ console.log("initialization");
 // Steps
 
 function highlightStep(event) {
-    let steps = document.querySelectorAll('.step');
-        
-    steps.forEach(step => step.classList.remove('highlighted'));
 
-    event.target.classList.add('highlighted');
+    document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('highlight');
+    });
 
-    
-    currStep = event.target.id;
-    console.log('currStep: ' + currStep);
-    
+    const clickedStep = event.taret;
+    event.target.classList.add('highlight');
+
+    currStep = Array.from(allSteps).indexOf(clickedStep);
+
     updateChoicesDisplay();
 }
-function addStep() {
+
+//function addStep() {
     let contentDiv = document.querySelector('.content');
     
     if (numStep > 0) {
@@ -52,8 +53,67 @@ function addStep() {
     // delete_this
     console.log("added numStep:" + numStep);
     numStep++;
+//}
+
+
+function addStep() {
+    let contentDiv = document.querySelector('.content');
+
+    // Create container 
+    let choiceContainer = document.createElement('div');
+    choiceContainer.style.display = 'flex';
+    choiceContainer.style.alignItems = 'center';
+    choiceContainer.style.gap = '8px';
+
+    // Add arrow if not the first step
+    if (numStep > 0) {
+        let arrow = document.createElement('div');
+        arrow.className = 'arrow';
+        arrow.innerHTML = '&#10132;';
+        choiceContainer.appendChild(arrow);
+    }
+
+    // Step 
+    let newStep = document.createElement('div');
+    newStep.className = 'step';
+    newStep.innerText = 'New Step';
+
+
+    newStep.addEventListener('click', highlightStep);
+
+    newStep.addEventListener('dblclick', () => {
+        newStep.contentEditable = true;
+        newStep.focus();
+    });
+
+    // Delete button
+    let deleteBtn = document.createElement('button');
+    deleteBtn.innerText = '✕';
+    deleteBtn.style.marginLeft = '10px';
+
+    deleteBtn.addEventListener('click', () => {
+        const allSteps = Array.from(document.querySelectorAll('.step'));
+        const stepIndex = allSteps.indexOf(newStep);
+
+        if (stepIndex !== -1) {
+            contentDiv.removeChild(choiceContainer);
+
+            currChoices.splice(stepIndex, 1);
+        }
+    });
+
+    choiceContainer.appendChild(newStep);
+    choiceContainer.appendChild(deleteBtn);
+    contentDiv.appendChild(choiceContainer);
+
+    currChoices.push([]);
+
+    highlightStep({ target: newStep });
+    numStep++;
 }
 
+
+/*
 function removeStep() {
     console.log("removeStep");
 
@@ -93,6 +153,8 @@ function popStep() {
 
     console.log("popped step, now numStep:" + numStep);
 }
+*/
+
 window.onload = function() {
     addStep(); 
     addStep();
@@ -207,10 +269,12 @@ function updateChoicesDisplay() {
         });
     }
 
+    /*
     if (calendarStep !== null) {
         const calendar = document.querySelector('.calendar');
         calendar.style.display = (calendarStep == currStep) ? 'flex' : 'none';
     }
+    */
 }
 
 function addCalendar() {
@@ -344,13 +408,24 @@ function addInfo() {
 function addChoiceModal() {
     console.log("addChoiceModal");
     let contentDiv = document.getElementById('modalInfo-content');
+   
+    let choiceContainer = document.createElement('div');
+    // choiceContainer.className = 'choice-group'; have to style
 
+    // text box
     let newChoice = document.createElement('input');
     newChoice.type = 'text';
-    newChoice.contentEditable = true;
-    newChoice.placeholder = 'Type here...'
+    newChoice.placeholder = 'Type here...';
 
-    contentDiv.appendChild(newChoice);
+    // remove button
+    let newButton = document.createElement('button');
+    newButton.textContent = 'Remove';
+    newButton.onclick = function () {
+        contentDiv.removeChild(choiceContainer);
+    };
+
+    choiceContainer.appendChild(newChoice);
+    choiceContainer.appendChild(newButton);
+
+    contentDiv.appendChild(choiceContainer);
 }
-
-// <input type="text" id="userInput" placeholder="Type here..." />

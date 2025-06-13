@@ -8,53 +8,18 @@ console.log("initialization");
 // Steps
 
 function highlightStep(event) {
-
-    document.querySelectorAll('.step').forEach(step => {
-        step.classList.remove('highlight');
-    });
+    const allSteps = document.querySelectorAll('.step');
+    allSteps.forEach(step => step.classList.remove('highlighted'));
 
     const clickedStep = event.taret;
-    event.target.classList.add('highlight');
-
+    event.target.classList.add('highlighted');
+    
+    //const stepIndex = allSteps.indexOf(newStep);
     currStep = Array.from(allSteps).indexOf(clickedStep);
+    console.log("currStep: " + currStep);
 
     updateChoicesDisplay();
 }
-
-//function addStep() {
-    let contentDiv = document.querySelector('.content');
-    
-    if (numStep > 0) {
-        let arrow = document.createElement('div');
-        arrow.className = 'arrow';
-        arrow.innerHTML = '&#10132;';
-        contentDiv.appendChild(arrow);
-        contentDiv.appendChild(arrow);
-    }
-    
-    let newStep = document.createElement('div');
-    newStep.id = numStep;
-    newStep.className = 'step';
-    newStep.contentEditable = false;
-    newStep.innerText = 'New Step';
-    
-    newStep.addEventListener('click', highlightStep);
-
-    newStep.addEventListener('dblclick', () => {
-        newStep.contentEditable = true;
-        newStep.focus();
-    });
-
-    contentDiv.appendChild(newStep);
-    highlightStep({target: newStep});
-
-    currStep = numStep;
-    
-    // delete_this
-    console.log("added numStep:" + numStep);
-    numStep++;
-//}
-
 
 function addStep() {
     let contentDiv = document.querySelector('.content');
@@ -78,7 +43,6 @@ function addStep() {
     newStep.className = 'step';
     newStep.innerText = 'New Step';
 
-
     newStep.addEventListener('click', highlightStep);
 
     newStep.addEventListener('dblclick', () => {
@@ -94,7 +58,8 @@ function addStep() {
     deleteBtn.addEventListener('click', () => {
         const allSteps = Array.from(document.querySelectorAll('.step'));
         const stepIndex = allSteps.indexOf(newStep);
-
+        console.log("step removed: " + stepIndex);
+        
         if (stepIndex !== -1) {
             contentDiv.removeChild(choiceContainer);
 
@@ -111,49 +76,6 @@ function addStep() {
     highlightStep({ target: newStep });
     numStep++;
 }
-
-
-/*
-function removeStep() {
-    console.log("removeStep");
-
-    if (numStep < 0) {
-        window.alert("Atleast one step is required")
-        return;
-    }
-    numStep--;
-
-    // delete from collection
-    let keys = Object.keys(currChoices);
-    let lastKey = keys[keys.length - 1];
-    delete currChoices[lastKey];
-
-    // delete from screen + calendar
-    popStep();
-    if (calendarStep == numStep) {
-        const calendar = document.querySelector('.calendar');
-        calendar.style.display = 'none';
-        calendarStep = -1;
-    }
-
-}
-function popStep() {
-    let contentDiv = document.querySelector('.content');
-    
-    let lastStep = document.getElementById(numStep);
-    if (lastStep) {
-        contentDiv.removeChild(lastStep);
-    }
-
-    let arrows = contentDiv.querySelectorAll('.arrow');
-        contentDiv.removeChild(arrows[arrows.length - 1]);
-    if (numStep > 0) {
-        
-    }
-
-    console.log("popped step, now numStep:" + numStep);
-}
-*/
 
 window.onload = function() {
     addStep(); 

@@ -11,7 +11,7 @@ function highlightStep(event) {
     const allSteps = document.querySelectorAll('.step');
     allSteps.forEach(step => step.classList.remove('highlighted'));
 
-    const clickedStep = event.taret;
+    const clickedStep = event.target;
     event.target.classList.add('highlighted');
     
     //const stepIndex = allSteps.indexOf(newStep);
